@@ -2,8 +2,9 @@ package com.dailydashboard.app.data.repository
 
 import com.dailydashboard.app.data.remote.firebase.FirebaseFirestoreClient
 import com.dailydashboard.app.data.remote.firebase.FirestoreDoc
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.serialization.json.Json
 
 abstract class BaseFirestoreRepository<T>(
@@ -13,7 +14,7 @@ abstract class BaseFirestoreRepository<T>(
     protected val json = Json { ignoreUnknownKeys = true }
 
     protected val _items = MutableStateFlow<List<T>>(emptyList())
-    val items: Flow<List<T>> get() = _items
+    val items: StateFlow<List<T>> get() = _items.asStateFlow()
 
     protected abstract fun mapDocument(doc: FirestoreDoc): T
 

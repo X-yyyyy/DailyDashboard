@@ -17,7 +17,8 @@
       "Bash(git init *)",
       "Bash(gh repo *)",
       "Bash(./gradlew :app:compileDebugKotlin)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(git remote *)"
     ]
   }
 }

@@ -5,15 +5,16 @@ import com.dailydashboard.app.data.model.Semester
 import com.dailydashboard.app.data.remote.firebase.FirebaseFirestoreClient
 import com.dailydashboard.app.data.remote.firebase.toData
 import com.dailydashboard.app.data.remote.firebase.toFirestoreFields
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class SemesterRepository(
     private val firestoreClient: FirebaseFirestoreClient,
     private val dataStoreManager: DataStoreManager,
 ) {
     private val _semester = MutableStateFlow(Semester())
-    val semester: Flow<Semester> get() = _semester
+    val semester: StateFlow<Semester> get() = _semester.asStateFlow()
 
     suspend fun refresh(userId: String, idToken: String) {
         val doc = firestoreClient.getDocument(userId, "semester", "current", idToken)
