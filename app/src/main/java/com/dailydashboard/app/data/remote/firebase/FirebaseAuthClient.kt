@@ -59,4 +59,28 @@ class FirebaseAuthClient(private val okHttpClient: OkHttpClient) {
             Result.failure(e)
         }
     }
+
+    suspend fun signUpWithPassword(email: String, password: String): Result<SignInResponse> {
+        val url = "${FirebaseConfig.authBaseUrl}/accounts:signUp?key=${FirebaseConfig.apiKey}"
+        val body = SignInRequest(email, password, returnSecureToken = true)
+        val requestBody = json.encodeToString(SignInRequest.serializer(), body)
+
+        val request = Request.Builder()
+            .url(url)
+            .post(requestBody.toRequestBody(mediaType))
+            .build()
+
+        return try {
+            val response = okHttpClient.newCall(request).await()
+            val responseBody = response.body?.string().orEmpty()
+            if (response.isSuccessful) {
+                Result.success(json.decodeFromString(SignInResponse.serializer(), responseBody))
+            } else {
+                val error = json.decodeFromString(ErrorResponse.serializer(), responseBody)
+                Result.failure(Exception(error.error.message))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }
