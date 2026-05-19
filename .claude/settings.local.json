@@ -14,7 +14,9 @@
       "Bash(mkdir -p app/src/main/java/com/dailydashboard/app/di)",
       "Bash(mkdir -p app/src/main/java/com/dailydashboard/app/data/remote/firebase)",
       "Bash(gh auth *)",
-      "Bash(git init *)"
+      "Bash(git init *)",
+      "Bash(gh repo *)",
+      "Bash(./gradlew :app:compileDebugKotlin)"
     ]
   }
 }
